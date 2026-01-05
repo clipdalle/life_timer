@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Life Logger</title>
+    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="icon.png">
+    <meta name="theme-color" content="#121212">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Google Fonts for a premium feel -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Main Container matches Mobile Viewport -->
+    <div class="app-container">
+
+        <!-- 1. Top Section: Current Context (Pulse) -->
+        <header class="status-card" id="status-card">
+            <div class="date-display" id="date-display-wrapper">
+                <span id="date-display">--月--日</span>
+                <span id="calendar-trigger" class="calendar-icon">📅</span>
+                <input type="date" id="date-picker">
+            </div>
+            <div class="clock-display" id="clock-display">--:--</div>
+            <div class="status-activity-row">
+                <span id="current-activity-name" class="status-sub-text"></span>
+                <span class="status-separator">·</span>
+                <span id="current-activity-timer" class="status-sub-text"></span>
+            </div>
+        </header>
+
+        <!-- 2. Middle Section: Event Stream (Scrollable) -->
+        <main class="event-stream" id="event-stream">
+            <!-- Empty State -->
+            <div class="stream-empty">
+                <p>今天还没有记录</p>
+                <p>点击底部开始</p>
+            </div>
+            <!-- Events will be injected here via JS -->
+        </main>
+
+        <!-- 3. Bottom Section: Command Center -->
+        <footer class="command-center">
+
+            <!-- Quick Actions Toolbar (Horizontal Scroll) -->
+            <div class="quick-actions" id="quick-actions">
+                <!-- Action Buttons will be injected here -->
+            </div>
+
+            <!-- Time Dial (New) -->
+            <div class="time-dial-row" id="time-dial-row">
+                <button id="btn-time-now" class="time-btn-now active">当前</button>
+                <div class="dial-group">
+                    <div class="dial-scroll" id="dial-hours">
+                        <!-- JS injected -->
+                    </div>
+                    <div class="dial-colon">:</div>
+                    <div class="dial-scroll" id="dial-minutes">
+                        <!-- JS injected -->
+                    </div>
+                    <div class="dial-colon" style="font-size: 12px; margin: 0 8px; opacity: 0.5;">长</div>
+                    <div class="dial-scroll" id="dial-duration">
+                        <!-- JS injected -->
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Input Area -->
+            <div class="input-bar">
+                <input type="text" id="main-input" placeholder="记录什么..." autocomplete="off">
+                <button id="send-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Custom Modal for Edits -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-content">
+            <h3 id="modal-title">编辑活动</h3>
+
+            <div class="modal-field">
+                <label>活动名称</label>
+                <input type="text" id="modal-input-name" placeholder="活动名称">
+            </div>
+
+            <div class="modal-field">
+                <label>时间 (HH:MM)</label>
+                <input type="time" id="modal-input-time">
+            </div>
+
+            <div class="modal-field">
+                <label>备注详情</label>
+                <input type="text" id="modal-input-detail" placeholder="备注...">
+            </div>
+
+            <!-- Hidden field to store ID being edited -->
+            <input type="hidden" id="modal-edit-id">
+
+            <div class="modal-actions">
+                <button class="btn-cancel" id="modal-cancel">取消</button>
+                <button class="btn-confirm" id="modal-confirm">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js?v=31"></script>
+</body>
+
+</html>

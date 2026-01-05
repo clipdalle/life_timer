@@ -1,0 +1,608 @@
+:root {
+    --bg-color: #0d1117;
+    --card-bg: #161b22;
+    --text-primary: #f0f6fc;
+    --text-secondary: #8b949e;
+    --accent: #238636;
+    --accent-glow: rgba(35, 134, 54, 0.4);
+    --border: #30363d;
+    --input-bg: #0d1117;
+
+    --font-ui: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    /* Remove tap flash on mobile */
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-ui);
+    height: 100vh;
+    overflow: hidden;
+    /* Prevent body scroll, handle inside app-container */
+    display: flex;
+    justify-content: center;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 500px;
+    /* Mobile width constraint */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-color);
+    position: relative;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* --- 1. Top Status Card --- */
+.status-card {
+    background-color: var(--card-bg);
+    padding: 24px 20px;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+    /* Remove background/border if user wants super minimal?
+        Let's keep it but make it cleaner */
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.status-label {
+    display: none;
+    /* Removed */
+}
+
+.clock-display {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    letter-spacing: -2px;
+    line-height: 1;
+    /* Tighter line height to play nice with date */
+}
+
+.date-display {
+    font-size: 18px;
+    /* Approx half visuals considering weight */
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.status-activity-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.status-sub-text {
+    opacity: 0.8;
+}
+
+.status-separator {
+    color: var(--border);
+}
+
+/* Removed .status-activity and .status-timer as per instruction's implied removal */
+
+/* --- 2. Event Stream --- */
+.event-stream {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    scroll-behavior: smooth;
+    /* Hide scrollbar structure but allow functionality */
+    scrollbar-width: none;
+}
+
+.event-stream::-webkit-scrollbar {
+    display: none;
+}
+
+.stream-empty {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-top: 50px;
+    opacity: 0.5;
+}
+
+/* Stream Item Styles */
+.stream-item {
+    display: flex;
+    background: var(--card-bg);
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    align-items: center;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.stream-time {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-right: 15px;
+    min-width: 50px;
+}
+
+.stream-content {
+    flex: 1;
+}
+
+.stream-title {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.stream-detail {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+/* --- 3. Command Center (Bottom) --- */
+.command-center {
+    background-color: var(--card-bg);
+    border-top: 1px solid var(--border);
+    padding: 10px;
+    padding-bottom: 20px;
+    /* Safe area for modern phones */
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.quick-actions {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+    /* Hide scrollbar */
+    scrollbar-width: none;
+}
+
+.quick-actions::-webkit-scrollbar {
+    display: none;
+}
+
+.action-chip {
+    background: var(--bg-color);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+}
+
+.action-chip:active {
+    background: var(--border);
+    transform: scale(0.95);
+}
+
+.action-chip.active-context {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+/* Stream Item Actions */
+.stream-header-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.btn-more {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    padding: 0 8px;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+}
+
+.item-options {
+    display: none;
+    /* Hidden by default */
+    position: absolute;
+    right: 10px;
+    top: 35px;
+    background: var(--bg-color);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    z-index: 50;
+    overflow: hidden;
+}
+
+.item-options.show {
+    display: flex;
+    flex-direction: column;
+    /* Ensure vertical stacking */
+}
+
+.btn-edit,
+.btn-delete {
+    display: block;
+    width: 100%;
+    padding: 10px 20px;
+    background: transparent;
+    border: none;
+    text-align: left;
+    font-size: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.btn-edit {
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border);
+    /* Separator */
+}
+
+.btn-delete {
+    color: #f85149;
+}
+
+.btn-edit:active,
+.btn-delete:active {
+    background: var(--border);
+}
+
+
+.input-bar {
+    display: flex;
+    gap: 10px;
+}
+
+#main-input {
+    flex: 1;
+    background: var(--bg-color);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 10px 15px;
+    color: var(--text-primary);
+    font-size: 16px;
+    /* 16px prevents iOS zoom on focus */
+    outline: none;
+}
+
+#main-input:focus {
+    border-color: var(--accent);
+}
+
+#send-btn {
+    background: var(--accent);
+    border: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+#send-btn:active {
+    opacity: 0.8;
+}
+
+/* --- Modals --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+
+.modal-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background: var(--card-bg);
+    padding: 24px;
+    border-radius: 16px;
+    width: 80%;
+    max-width: 320px;
+    text-align: center;
+}
+
+#modal-title {
+    margin-bottom: 20px;
+    color: var(--text-primary);
+}
+
+.modal-field {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.modal-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.modal-field input {
+    width: 100%;
+    padding: 10px;
+    background: #1e1e1e;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 16px;
+    outline: none;
+}
+
+.modal-field input:focus {
+    border-color: var(--accent);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.btn-cancel,
+.btn-confirm {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-cancel {
+    background: transparent;
+    color: var(--text-secondary);
+}
+
+.btn-confirm {
+    background: var(--accent);
+    color: white;
+}
+
+/* --- Date Picker Styling --- */
+#date-display-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+    position: relative;
+    cursor: pointer;
+    z-index: 20;
+    /* Ensure clickability */
+}
+
+#date-display {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.calendar-icon {
+    font-size: 16px;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+#date-display-wrapper:active .calendar-icon {
+    opacity: 1;
+}
+
+#date-picker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 25;
+    /* Higher than wrapper content */
+}
+
+/* Highlight viewing past dates */
+body.viewing-history .status-card {
+    border-bottom: 1px solid #f85149;
+}
+
+body.viewing-history #date-display {
+    color: #f85149;
+}
+
+/* --- Time Dial (Vertical Wheel) --- */
+.time-dial-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    /* More space for the taller wheel */
+    height: 120px;
+    /* Increased height */
+}
+
+.time-btn-now {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    /* Circle button */
+    font-size: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.time-btn-now.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+    font-weight: 600;
+}
+
+.dial-group {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background: var(--bg-color);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    /* For selection mask */
+}
+
+/* Selection Highlight Box */
+.dial-group::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 32px;
+    margin-top: -16px;
+    background: rgba(255, 255, 255, 0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    pointer-events: none;
+    /* Allow click through */
+    z-index: 0;
+}
+
+.dial-colon {
+    font-weight: bold;
+    color: var(--text-primary);
+    margin: 0 4px;
+    z-index: 1;
+}
+
+.dial-scroll {
+    flex: 1;
+    /* All 3 columns share space */
+    display: flex;
+    flex-direction: column;
+    /* Vertical */
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+    scroll-snap-type: y mandatory;
+    scrollbar-width: none;
+    align-items: center;
+    z-index: 1;
+    padding: 44px 0;
+    /* (120 - 32) / 2 = 44px padding to center first item */
+}
+
+.dial-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.dial-item {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    color: var(--text-secondary);
+    height: 32px;
+    /* Fixed height for calc */
+    line-height: 32px;
+    /* Center text */
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    flex-shrink: 0;
+    scroll-snap-align: center;
+    transition: all 0.2s;
+    opacity: 0.5;
+}
+
+/* Selected visual handled by scroll position, but we can highlight visually too if class is applied */
+.dial-item.selected {
+    color: var(--text-primary);
+    font-weight: bold;
+    font-size: 18px;
+    opacity: 1;
+}
+
+/* --- Dimming Logic --- */
+.time-btn-now.dimmed {
+    opacity: 0.3;
+}
+
+/* When in 'Now' mode, dim the dial group */
+.time-dial-row.mode-now .dial-group {
+    opacity: 0.3;
+    pointer-events: none;
+    /* Optional: prevent accidental scroll? strict "Now" mode? User probably wants to scroll to wake it up */
+    pointer-events: auto;
+    /* Let them scroll to wake up */
+    transition: opacity 0.2s;
+}
+
+/* When in 'Manual' mode, un-dim dial group */
+.time-dial-row.mode-manual .dial-group {
+    opacity: 1;
+}
