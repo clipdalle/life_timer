@@ -1,12 +1,19 @@
-name: Build Android APK
+name: LifeTimer App Build
 
 on:
   push:
     branches:
       - main
       - master
-      - android # Support the current branch
+      - android
+    tags:
+      - 'v*'
   workflow_dispatch:
+    inputs:
+      version_name:
+        description: 'Version Name'
+        required: true
+        default: 'First Edition Release'
 
 jobs:
   build:
@@ -46,5 +53,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug
+          name: LifeTimer-${{ github.event.inputs.version_name || github.ref_name }}
           path: android/app/build/outputs/apk/debug/app-debug.apk
