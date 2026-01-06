@@ -18,13 +18,12 @@ LifeTimer 是一款轻量级、响应式的个人时间管理工具，支持作�
 
 ## 📱 Android App 下载
 
-由于本项目采用 GitHub Actions 云端自动构建方案，您可以在 GitHub 平台上直接下载最新的 APK 安装包：
+为了方便安装，我们已经在 GitHub 上发布了正式版本（Release）。
 
-1.  访问本仓库的 **[Actions]** 标签页。
-2.  点击最近的一个成功的流水线任务（名称为 **`LifeTimer App Build`**，且带有 **`v1.0.0-First-Edition`** 标签）。
-3.  滚动至页面最下方的 **Artifacts (产物)** 区域。
-4.  点击下载 **`LifeTimer-v1.0.0-First-Edition`** 压缩包。
-5.  解压后得到的 `app-debug.apk` 即可安装至安卓手机。
+1.  访问仓库右侧的 **[Releases](https://github.com/clipdalle/life_timer/releases)** 页面。
+2.  找到最新的版本（例如 `v0.0.1`）。
+3.  在 **Assets** 区域点击下载 `LifeTimer-v0.0.1.apk`。
+4.  将文件传到手机点击安装。
 
 *注意：安装时手机可能会提示“来源未知”，请选择“仍要安装”即可。*
 
