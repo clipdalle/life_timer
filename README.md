@@ -16,14 +16,13 @@ LifeTimer 是一款轻量级、响应式的个人时间管理工具，支持作�
 *   **本地存储 & 隐私控制**：数据完全存储在您的本地浏览器或 App 内部空间，**绝不上传云端**。
 *   **数据导出**：支持一键导出 JSON 备份，确保数据掌控权。
 
-## 📱 Android App 下载
+## 📱 Android App 下载 (v0.0.1)
 
-为了方便安装，我们已经在 GitHub 上发布了正式版本（Release）。
+目前第一个版本已发布，您可以点击下方链接直接下载安装：
 
-1.  访问仓库右侧的 **[Releases](https://github.com/clipdalle/life_timer/releases)** 页面。
-2.  找到最新的版本（例如 `v0.0.1`）。
-3.  在 **Assets** 区域点击下载 `LifeTimer-v0.0.1.apk`。
-4.  将文件传到手机点击安装。
+👉 **[点击下载 LifeTimer-v0.0.1.apk](https://github.com/clipdalle/life_timer/releases/download/v0.0.1/LifeTimer-v0.0.1.apk)**
+
+*或者访问 [Releases](https://github.com/clipdalle/life_timer/releases) 页面查看历史版本。*
 
 *注意：安装时手机可能会提示“来源未知”，请选择“仍要安装”即可。*
 
